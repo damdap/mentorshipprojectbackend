@@ -16,7 +16,13 @@ app.use(cookieParser());
 
 const allowOrigins = ["https://mentorshipprojectfrontend.vercel.app/", "http://localhost:5173/"]
 app.use(cors({
-    origin: "",
+    origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
     credentials: true,
     methods: ["GET,HEAD,PUT,PATCH,POST,DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"]
@@ -31,6 +37,7 @@ app.get("/", (req, res) => {
 
 connectDB();
 
-app.listen(8000, () => {
-    console.log("Server is running");
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
 });
