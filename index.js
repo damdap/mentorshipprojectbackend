@@ -14,6 +14,14 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 
+const allowOrigins = ["https://mentorshipprojectfrontend.vercel.app/", "http://localhost:5173/"]
+app.use(cors({
+    origin: "",
+    credentials: true,
+    methods: ["GET,HEAD,PUT,PATCH,POST,DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"]
+}));
+
 app.use("/api/auth", AuthRoutes);
 app.use("/api/profile", ProfileRoutes);
 
